@@ -17,4 +17,5 @@ public interface DrivetrainBase {
     public abstract void driveChassisSpeeds(ChassisSpeeds speeds);
     public abstract void getData(drivetrainData data);
     public abstract Rotation2d getRobotRotation();
+    public abstract void periodic();
 }

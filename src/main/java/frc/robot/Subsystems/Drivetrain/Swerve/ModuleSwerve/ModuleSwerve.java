@@ -17,4 +17,5 @@ public interface ModuleSwerve {
     public abstract SwerveModulePosition getModulePosition();
     public abstract SwerveModuleState getModuleState();
     public abstract SwerveModulePosition getDifference();
+    public abstract void update();
 }

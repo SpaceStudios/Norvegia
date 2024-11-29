@@ -26,11 +26,13 @@ public class ModuleSwerve_SIM implements ModuleSwerve {
     private double distance;
 
     public ModuleSwerve_SIM(Motor driveMotor, Motor steerMotor, int driveID, int SteerID) {
-        driveMotorSim = new DCMotorSim(convertMotorEnum(driveMotor), ModuleConstants.driveGearRatio, 0.010);
-        steerMotorSim = new DCMotorSim(convertMotorEnum(steerMotor), ModuleConstants.steerGearRatio, 0.010);
+        driveMotorSim = new DCMotorSim(convertMotorEnum(driveMotor), ModuleConstants.driveGearRatio, 0.025);
+        steerMotorSim = new DCMotorSim(convertMotorEnum(steerMotor), ModuleConstants.steerGearRatio, 0.004);
 
         driveController = new PIDController(ModuleConstants.drivekP,ModuleConstants.drivekI,ModuleConstants.drivekD);
         steerController = new PIDController(ModuleConstants.steerkP, ModuleConstants.steerkI, ModuleConstants.steerkP);
+
+        steerController.enableContinuousInput(-Math.PI, Math.PI);
 
         distance = 0.0;
     }
@@ -48,8 +50,9 @@ public class ModuleSwerve_SIM implements ModuleSwerve {
 
     @Override
     public void moduleStateDrive(SwerveModuleState setState) {
+        setState = SwerveModuleState.optimize(setState, getTurnPosition());
         steerMotorSim.setInputVoltage(MathUtil.clamp(steerController.calculate(steerMotorSim.getAngularPositionRotations(),setState.angle.getRotations()), -12, 12));
-        driveMotorSim.setInputVoltage(MathUtil.clamp(driveController.calculate(driveMotorSim.getAngularVelocityRadPerSec()*RobotConstants.wheelSize,setState.speedMetersPerSecond), -12, 12));
+        driveMotorSim.setInputVoltage(MathUtil.clamp(driveController.calculate(driveMotorSim.getAngularVelocityRadPerSec()*RobotConstants.wheelSize,setState.speedMetersPerSecond*Math.cos(steerController.getPositionError())), -12, 12));
     }
 
     @Override
@@ -82,4 +85,11 @@ public class ModuleSwerve_SIM implements ModuleSwerve {
         SwerveModulePosition currentDifference = new SwerveModulePosition(getDrivePositionMeters()-distance, getTurnPosition());
         distance = getDrivePositionMeters();
         return currentDifference;
-    }}
+    }
+
+    @Override
+    public void update() {
+        steerMotorSim.update(0.020);
+        driveMotorSim.update(0.020);
+    }
+}

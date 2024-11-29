@@ -14,13 +14,13 @@ public class RobotContainer {
   Drivetrain mainDrive;
   CommandXboxController controller;
   public RobotContainer() {
-    mainDrive = new Drivetrain(false);
+    mainDrive = new Drivetrain(true);
     controller = new CommandXboxController(0);
     configureBindings();
   }
 
   private void configureBindings() {
-    mainDrive.setDefaultCommand(mainDrive.Drive(() -> MathUtil.applyDeadband(controller.getLeftX(), 0.1), () -> MathUtil.applyDeadband(controller.getLeftY(), 0.1), () -> MathUtil.applyDeadband(controller.getRightX(), 0.1)));
+    mainDrive.setDefaultCommand(mainDrive.Drive(() -> MathUtil.applyDeadband(-controller.getLeftY(), 0.1), () -> MathUtil.applyDeadband(-controller.getLeftX(), 0.1), () -> MathUtil.applyDeadband(-controller.getRightX(), 0.1)));
   }
 
   public Command getAutonomousCommand() {

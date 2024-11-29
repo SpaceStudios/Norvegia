@@ -70,4 +70,11 @@ public class swerveDrive implements DrivetrainBase{
     public Rotation2d getRobotRotation() {
         return GyroRotation;
     }
+    @Override
+    public void periodic() {
+        fLModuleSwerve.update();
+        fRModuleSwerve.update();
+        rLModuleSwerve.update();
+        rRModuleSwerve.update();
+    }
 }

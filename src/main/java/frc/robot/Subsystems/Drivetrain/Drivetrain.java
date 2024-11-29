@@ -6,18 +6,21 @@ package frc.robot.Subsystems.Drivetrain;
 
 import java.util.function.DoubleSupplier;
 
+import org.littletonrobotics.junction.Logger;
+
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.RobotConstants;
+import frc.robot.Subsystems.Drivetrain.DrivetrainBase.drivetrainData;
 import frc.robot.Subsystems.Drivetrain.Swerve.swerveDrive;
 
 public class Drivetrain extends SubsystemBase {
   /** Creates a new Drivetrain. */
   DrivetrainBase drivetrain;
   boolean FieldRelative = true;
+  drivetrainData data;
   public Drivetrain(boolean IsFieldRelative) {
     switch (RobotConstants.currentDrivetrain) {
       case Swerve:
@@ -27,6 +30,7 @@ public class Drivetrain extends SubsystemBase {
         System.out.println(RobotConstants.currentDrivetrain.toString() + " is not supported");
         break;
     }
+    data = new drivetrainData();
     FieldRelative = IsFieldRelative;
   }
   
@@ -45,5 +49,8 @@ public class Drivetrain extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    drivetrain.periodic();
+    drivetrain.getData(data);
+    Logger.recordOutput("Drivetrain Pose", data.currentPosition);
   }
 }

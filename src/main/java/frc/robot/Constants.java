@@ -12,25 +12,25 @@ import frc.robot.Constants.RobotConstants.Motor;
 public class Constants {
     public class SwerveConstants {
         public class ModuleFLConstants {
-            public static final Translation2d Position = new Translation2d(-RobotConstants.robotWidth/2,RobotConstants.robotLength/2);
+            public static final Translation2d Position = new Translation2d(RobotConstants.robotWidth/2,RobotConstants.robotLength/2);
             public static final int Steer = 1;
             public static final int Drive = 2;
         }
 
         public class ModuleFRConstants {
-            public static final Translation2d Position = new Translation2d(RobotConstants.robotWidth/2,RobotConstants.robotLength/2);
+            public static final Translation2d Position = new Translation2d(RobotConstants.robotWidth/2,-RobotConstants.robotLength/2);
             public static final int Steer = 3;
             public static final int Drive = 4;
         }
 
         public class ModuleRLConstants {
-            public static final Translation2d Position = new Translation2d(-RobotConstants.robotWidth/2,-RobotConstants.robotLength/2);
+            public static final Translation2d Position = new Translation2d(-RobotConstants.robotWidth/2,RobotConstants.robotLength/2);
             public static final int Steer = 5;
             public static final int Drive = 6;
         }
 
         public class ModuleRRConstants {
-            public static final Translation2d Position = new Translation2d(RobotConstants.robotWidth/2,-RobotConstants.robotLength/2);
+            public static final Translation2d Position = new Translation2d(-RobotConstants.robotWidth/2,-RobotConstants.robotLength/2);
             public static final int Steer = 7;
             public static final int Drive = 8;
         }
@@ -47,7 +47,7 @@ public class Constants {
             public static final double drivekI = 0.0;
             public static final double drivekD = 0.0;
 
-            public static final double steerkP = 0.9;
+            public static final double steerkP = 3.0;
             public static final double steerkI = 0.0;
             public static final double steerkD = 0.0;
         }
@@ -72,9 +72,9 @@ public class Constants {
         public static Mode currentMode = Mode.SIM;
         public static final driveTrainType currentDrivetrain = driveTrainType.Swerve;
         public static final double wheelSize = Units.inchesToMeters(4);
-        public static final double maxTurnSpeed = Math.PI; //Max Turn Speed in Radians
-        public static final double maxSpeed = 20; //Max Speed in Meters per a Second
-        public static final double robotWidth = 2; // Robot Width in Meters
-        public static final double robotLength = 2; // Robot Length in Meters
+        public static final double maxTurnSpeed = 2*Math.PI; //Max Turn Speed in Radians
+        public static final double maxSpeed = 80; //Max Speed in Meters per a Second
+        public static final double robotWidth = 1; // Robot Width in Meters
+        public static final double robotLength = 1; // Robot Length in Meters
     } 
 }
