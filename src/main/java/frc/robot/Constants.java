@@ -47,9 +47,12 @@ public class Constants {
             public static final double drivekI = 0.0;
             public static final double drivekD = 0.0;
 
-            public static final double steerkP = 3.0;
+            public static final double steerkP = 2.5;
             public static final double steerkI = 0.0;
             public static final double steerkD = 0.0;
+
+            public static final double steerT = 0.0;
+            public static final double steerTE = 0.0;
         }
     }
 

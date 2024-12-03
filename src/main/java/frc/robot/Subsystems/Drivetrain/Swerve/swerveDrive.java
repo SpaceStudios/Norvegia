@@ -9,6 +9,7 @@ import org.littletonrobotics.junction.Logger;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Twist2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.Odometry;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -59,6 +60,10 @@ public class swerveDrive implements DrivetrainBase{
         Twist2d currentTwist = kinematics.toTwist2d(swerveDeltas);
         GyroRotation = GyroRotation.plus(new Rotation2d(currentTwist.dtheta));
         Logger.recordOutput("Gyro Rotation", GyroRotation);
+        Logger.recordOutput("Intended Angle", SetModuleStates[0].angle.getRadians());
+        Logger.recordOutput("Actual Angle", fLModuleSwerve.getTurnPosition().getRadians());
+        Logger.recordOutput("Intended Speed", SetModuleStates[0].speedMetersPerSecond);
+        Logger.recordOutput("Actual Speed", fLModuleSwerve.getDriveVelocityMetersPerSecond());
         swerveOdometry.update(GyroRotation, swervePos);
     }
 

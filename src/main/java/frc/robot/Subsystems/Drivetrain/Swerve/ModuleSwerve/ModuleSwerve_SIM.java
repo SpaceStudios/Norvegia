@@ -12,6 +12,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import frc.robot.Constants.RobotConstants;
+import frc.robot.Constants.SwerveConstants;
 import frc.robot.Constants.RobotConstants.Motor;
 import frc.robot.Constants.SwerveConstants.ModuleConstants;
 
@@ -29,11 +30,11 @@ public class ModuleSwerve_SIM implements ModuleSwerve {
         driveMotorSim = new DCMotorSim(convertMotorEnum(driveMotor), ModuleConstants.driveGearRatio, 0.025);
         steerMotorSim = new DCMotorSim(convertMotorEnum(steerMotor), ModuleConstants.steerGearRatio, 0.004);
 
-        driveController = new PIDController(ModuleConstants.drivekP,ModuleConstants.drivekI,ModuleConstants.drivekD);
-        steerController = new PIDController(ModuleConstants.steerkP, ModuleConstants.steerkI, ModuleConstants.steerkP);
+        driveController = new PIDController(ModuleConstants.drivekP,ModuleConstants.drivekI,ModuleConstants.drivekD, 0.020);
+        steerController = new PIDController(ModuleConstants.steerkP, ModuleConstants.steerkI, ModuleConstants.steerkP, 0.020);
 
         steerController.enableContinuousInput(-Math.PI, Math.PI);
-
+        
         distance = 0.0;
     }
 
@@ -52,17 +53,17 @@ public class ModuleSwerve_SIM implements ModuleSwerve {
     public void moduleStateDrive(SwerveModuleState setState) {
         setState = SwerveModuleState.optimize(setState, getTurnPosition());
         steerMotorSim.setInputVoltage(MathUtil.clamp(steerController.calculate(steerMotorSim.getAngularPositionRotations(),setState.angle.getRotations()), -12, 12));
-        driveMotorSim.setInputVoltage(MathUtil.clamp(driveController.calculate(driveMotorSim.getAngularVelocityRadPerSec()*RobotConstants.wheelSize,setState.speedMetersPerSecond*Math.cos(steerController.getPositionError())), -12, 12));
+        driveMotorSim.setInputVoltage(MathUtil.clamp(driveController.calculate(driveMotorSim.getAngularVelocityRadPerSec()*(RobotConstants.wheelSize/2),setState.speedMetersPerSecond*Math.cos(steerController.getPositionError())), -12, 12));
     }
 
     @Override
     public double getDrivePositionMeters() {
-        return driveMotorSim.getAngularPositionRad()*RobotConstants.wheelSize;
+        return driveMotorSim.getAngularPositionRad()*(RobotConstants.wheelSize/2);
     }
 
     @Override
     public double getDriveVelocityMetersPerSecond() {
-        return driveMotorSim.getAngularVelocityRadPerSec()*RobotConstants.wheelSize;
+        return driveMotorSim.getAngularVelocityRadPerSec()*(RobotConstants.wheelSize/2);
     }
 
     @Override
